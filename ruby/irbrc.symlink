@@ -10,6 +10,49 @@ IRB.conf[:PROMPT_MODE] = :SIMPLE
 
 IRB.conf[:AUTO_INDENT] = true
 
+# -----------------------------------------
+#  Plumbing
+# -----------------------------------------
+  require 'rubygems'
+
+# -----------------------------------------
+#  Method to clean up hash output
+# -----------------------------------------
+  require 'pp'
+
+# -----------------------------------------
+#  Tab completion
+# -----------------------------------------
+  require 'irb/completion'
+
+# -----------------------------------------
+#  External editor support
+# -----------------------------------------
+  require 'interactive_editor'
+
+# -----------------------------------------
+#  Wirble - Coloring and other irb niceties
+# -----------------------------------------
+  begin
+    require 'wirble'
+    Wirble.init
+    Wirble.colorize
+  rescue LoadError => err
+  end
+
+# -----------------------------------------
+#  What methods (and result) are available
+# -----------------------------------------
+  begin
+    require 'what_methods'
+  rescue LoadError => err
+  end
+
+# -----------------------------------------
+#  Indent blocks
+# -----------------------------------------
+  IRB.conf[:AUTO_INDENT]=true
+
 class Object
   # list methods which aren't in superclass
   def local_methods(obj = self)
@@ -38,3 +81,80 @@ end
 def r
   reload!
 end
+
+# -----------------------------------------
+#  Benchmark block run time
+# -----------------------------------------
+  def benchmark
+    # From http://blog.evanweaver.com/articles/2006/12/13/benchmark/
+    # Call benchmark { } with any block and you get the wallclock runtime
+    # as well as a percent change + or - from the last run
+    cur = Time.now
+    result = yield
+    print "#{cur = Time.now - cur} seconds"
+    puts " (#{(cur / $last_benchmark * 100).to_i - 100}% change)" rescue puts ""
+    $last_benchmark = cur
+    result
+  end
+
+# -----------------------------------------
+#  Hirb - Pretty ActiveRecord tables, seems
+#         to require loading at the end to
+#         avoid conflicts with other tools
+# -----------------------------------------
+  begin
+    require 'hirb'
+    Hirb::View.enable
+  rescue LoadError => err
+  end
+
+# -----------------------------------------
+#  When in Rails, output the log entries
+#  that give us nice SQL statements when
+#  using ActiveRecord
+# -----------------------------------------
+ if ENV.include?('RAILS_ENV') && !Object.const_defined?('RAILS_DEFAULT_LOGGER')
+   require 'logger'
+   RAILS_DEFAULT_LOGGER = Logger.new(STDOUT)
+ end
+
+ if defined?(Rails) && Rails.env && defined?(ActiveRecord)
+   Bundler.require :console
+   def toggle_sql
+     if ActiveRecord::Base.logger
+       set_logger nil and return false
+     else
+       set_logger Logger.new(STDOUT) and return true
+     end
+   end
+
+   def set_logger(logger)
+     ActiveRecord::Base.logger = logger
+     ActiveRecord::Base.clear_active_connections!
+   end
+
+   set_logger nil # start with the normal logger
+ end
+
+# -----------------------------------------
+#  Prompt to include project name and env (Rails)
+# -----------------------------------------
+  if rails_env = ENV['RAILS_ENV'] || (defined?(Rails) && rails_env = Rails.env)
+    rails_root = File.basename(Dir.pwd)
+    prompt = "#{rails_root}[#{rails_env}]"
+    IRB.conf[:PROMPT] ||= {}
+    IRB.conf[:PROMPT][:RAILS] = {
+      :PROMPT_I => "#{prompt}> ",
+      :PROMPT_S => "#{prompt}* ",
+      :PROMPT_C => "#{prompt}? ",
+      :RETURN => "=> %s\n"
+    }
+    IRB.conf[:PROMPT_MODE] = :RAILS
+
+    # Called after the irb session is initialized and Rails has
+    # been loaded (props: Mike Clark).
+    IRB.conf[:IRB_RC] = Proc.new do
+      # Shows what's logged in realtime (beats tailing the log in another terminal)
+      # ActiveRecord::Base.logger = Logger.new(STDOUT)
+    end
+  end

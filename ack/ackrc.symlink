@@ -1,0 +1,16 @@
+--type-add=ruby=.haml,.rake,.rsel,.spec,.builder
+--type-add=html=.html.erb,.html.haml,.md,.markdown
+--type-add=js=.js.erb,.coffee
+--type-add=css=.scss,.sass,.less
+--type-set=cucumber=.feature
+--ignore-dir=vendor
+--ignore-dir=fixtures_extracted
+--ignore-dir=bootstrap
+--ignore-dir=log
+--ignore-dir=tmp
+--ignore-dir=doc
+--ignore-dir=coverage
+--sort-files
+--color
+--follow
+--group
