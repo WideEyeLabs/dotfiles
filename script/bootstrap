@@ -33,6 +33,10 @@ install_gems () {
   fi
 }
 
+install_janus () {
+  curl -Lo- https://bit.ly/janus-bootstrap | sh
+}
+
 setup_gitconfig () {
   if ! [ -f git/gitconfig.symlink ]
   then
@@ -124,6 +128,7 @@ install_dotfiles () {
 setup_gitconfig
 install_dotfiles
 install_gems
+install_janus
 
 # If we are on a mac, lets install and setup homebrew
 if [ "$(uname -s)" == "Darwin" ]
