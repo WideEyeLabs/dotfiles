@@ -1,0 +1,24 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    git_fame (0.1.0)
+      hirb
+      mimer_plus
+      progressbar
+      trollop
+    hirb (0.7.1)
+    json (1.7.7)
+    lunchy (0.6.0)
+    mimer_plus (0.0.4)
+    powify (0.8.5)
+      json
+    progressbar (0.20.0)
+    trollop (2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  git_fame
+  lunchy
+  powify

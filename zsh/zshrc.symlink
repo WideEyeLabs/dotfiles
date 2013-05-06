@@ -19,6 +19,8 @@ plugins=(git osx ruby rails3 bundler knife tmux)
 
 source $ZSH/oh-my-zsh.sh
 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 # this is needed for rake autocompletion with the bundler plugin
 setopt completealiases
 
