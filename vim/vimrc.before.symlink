@@ -1,0 +1,4 @@
+let mapleader = ","
+
+call janus#disable_plugin("nodejs", "This plugin is causing problems.")
+call janus#disable_plugin("vimwiki", "This plugin is causing problems with markdown syntax highlighting.")
