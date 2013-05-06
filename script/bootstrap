@@ -26,6 +26,13 @@ fail () {
   exit
 }
 
+install_gems () {
+  if [ -f Gemfile ]
+  then
+    bundle install
+  fi
+}
+
 setup_gitconfig () {
   if ! [ -f git/gitconfig.symlink ]
   then
@@ -116,6 +123,7 @@ install_dotfiles () {
 
 setup_gitconfig
 install_dotfiles
+install_gems
 
 # If we are on a mac, lets install and setup homebrew
 if [ "$(uname -s)" == "Darwin" ]
