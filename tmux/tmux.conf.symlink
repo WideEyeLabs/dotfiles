@@ -57,8 +57,8 @@ set-option -g   status-left ' #h |'
 set-option -g   status-right ' | %Y-%m-%d %H:%M #[default]'
 
 # default statusbar colors
-set-option -g   status-fg white
-set-option -g   status-bg colour10
+set-option -g   status-fg colour4
+set-option -g   status-bg colour249
 set-option -g   status-attr bright
 set-option -g   status-keys emacs
 
@@ -68,7 +68,7 @@ set-window-option -g window-status-bg blue
 set-window-option -g window-status-attr dim
 
 # active window title colors
-set-window-option -g window-status-current-fg yellow
+set-window-option -g window-status-current-fg white
 set-window-option -g window-status-current-bg red
 set-window-option -g window-status-current-attr bright
 
