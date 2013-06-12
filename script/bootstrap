@@ -34,7 +34,7 @@ install_gems () {
 }
 
 install_janus () {
-  curl -Lo- https://bit.ly/janus-bootstrap | sh
+  curl -Lo- https://bit.ly/janus-bootstrap | bash
 }
 
 setup_gitconfig () {

@@ -4,8 +4,6 @@ gem 'berkshelf'
 gem 'boom'
 gem 'capistrano'
 gem 'chef'
-gem 'cocoapods'
-gem 'cupertino'
 gem 'ffi'
 gem 'git_fame'
 gem 'hirb'
@@ -24,6 +22,12 @@ gem 'mina'
 gem 'multi_json'
 gem 'powify'
 gem 'pry'
-gem 'shenzhen'
 gem 'vagrant'
 gem 'vagrant-vbguest'
+
+
+if RUBY_PLATFORM.downcase.include?("darwin")
+  gem 'cocoapods'
+  gem 'cupertino'
+  gem 'shenzhen'
+end
