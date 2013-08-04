@@ -28,10 +28,5 @@ gem 'vagrant-vbguest'
 
 if RUBY_PLATFORM.downcase.include?("darwin")
   gem 'cocoapods'
-  gem 'cupertino'
-  gem 'dubai'
-  gem 'helios'
-  gem 'houston'
-  gem 'shenzhen'
-  gem 'venice'
+  gem 'nomad-cli'
 end
