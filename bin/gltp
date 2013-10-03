@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'gitlab'
+
+issue_number = ARGV[0]
+endpoint = `git config --get gitlab.url`.strip
+token = `git config --get gitlab.token`.strip
+project_id = `git config --get gitlab.projectid`.strip
+
+if issue_number.empty? or endpoint.empty? or project_id.empty?
+  puts "You need to pass in an issue number" if issue_number.empty?
+  puts "You need to configure your Gitlab Url. Use 'git config --global gitlab.url 'http://www.some_domain.com/api/v3'" if endpoint.empty?
+  puts "You need to configure your Project Id. Use 'git config gitlab.projectid 9001' from your projects directory" if project_id.emtpy?
+  raise 'You need to configure the GitLab endpoint, api token and project file for this command to work properly.'
+end
+
+Gitlab.configure do |config|
+  config.endpoint       = endpoint
+  config.private_token  = token
+end
+
+issue = Gitlab.issue(project_id, issue_number)
+issue_permalink = issue.title.downcase.gsub(' ','-').gsub(':','')
+
+`git checkout -b #{issue_number}-#{issue_permalink}`

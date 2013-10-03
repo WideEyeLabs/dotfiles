@@ -110,6 +110,8 @@ GEM
       mimer_plus
       progressbar
       trollop
+    gitlab (2.2.0)
+      httparty
     gssapi (1.0.3)
       ffi (>= 1.0.1)
     gyoku (1.1.0)
@@ -326,6 +328,7 @@ DEPENDENCIES
   cocoapods
   ffi
   git_fame
+  gitlab
   hirb
   httparty
   knife-backup
