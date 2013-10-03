@@ -1,0 +1,14 @@
+start () {
+  branch=`git branch | grep $1 | awk '{print $1}'`
+  if [[ $branch = "" ]] then
+    remote_branch= `git branch -r | grep $1 | awk -F "/" '{print $2}'`
+  
+    if [[ $remote_branch = "" ]] then
+      gltp $1
+    else
+      git checkout -b $remote_branch origin/$remote_branch
+    fi
+  else
+    git checkout $branch
+  fi
+}
