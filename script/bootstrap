@@ -37,6 +37,10 @@ install_janus () {
   curl -Lo- https://bit.ly/janus-bootstrap | bash
 }
 
+install_oh_my_zsh () {
+  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+}
+
 setup_gitconfig () {
   if ! [ -f git/gitconfig.symlink ]
   then
@@ -129,6 +133,7 @@ setup_gitconfig
 install_dotfiles
 install_gems
 install_janus
+install_oh_my_zsh
 
 # If we are on a mac, lets install and setup homebrew
 if [ "$(uname -s)" == "Darwin" ]
